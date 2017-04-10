@@ -19,7 +19,10 @@ public class App {
 	public String home() {
 		return "Hello World ! ";
 	}
-	
-	
+
+	@RequestMapping("/test")
+	public String testJsp() {
+		return "test";
+	}
 
 }
