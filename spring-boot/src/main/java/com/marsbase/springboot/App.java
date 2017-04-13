@@ -41,7 +41,7 @@ public class App extends SpringBootServletInitializer {
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
 		TilesConfigurer configurer = new TilesConfigurer();
-		String[] defs = { "/WEB-INF/tiles.xml" };
+		String[] defs = new String[] { "/WEB-INF/tiles.xml" };
 		configurer.setDefinitions(defs);
 		return configurer;
 	}
