@@ -26,3 +26,13 @@
 	color: #ff8040;
 	front-weight: bold;
 }
+
+.panel>.panel-heading {
+	background-color: #535664;
+	border-color: #535664;
+	color: #ff8040;
+}
+
+textarea {
+	width: 100%;
+}
