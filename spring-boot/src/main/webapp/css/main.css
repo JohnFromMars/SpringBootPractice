@@ -1,0 +1,28 @@
+.navbar {
+	background-color: #535664;
+	border-color: #535664;
+}
+
+.navbar>.container>div>.navbar-nav>li>a {
+	background: none;
+	color: #ff8040;
+	front-weight: bold;
+}
+
+.navbar>.container>div>.navbar-nav>li>a:hover {
+	background: none;
+	color: #d1d1d1;
+	front-weight: bold;
+}
+
+.navbar>.container>.navbar-header>a {
+	background: none;
+	color: #ff8040;
+	front-weight: bold;
+}
+
+.navbar>.container>.navbar-header>a:hover {
+	background: none;
+	color: #ff8040;
+	front-weight: bold;
+}
