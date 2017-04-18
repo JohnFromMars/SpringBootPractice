@@ -1,6 +1,9 @@
 package com.marsbase.springboot.test;
 
 import static org.junit.Assert.assertNotNull;
+
+import java.util.Calendar;
+
 import static org.junit.Assert.assertEquals;
 
 import javax.transaction.Transactional;
@@ -36,8 +39,31 @@ public class StatusTest {
 		assertNotNull("added date is null", statusUpdate.getAdded());
 
 		StatusUpdate retrieved = statusUpdateDao.findOne(statusUpdate.getId());
-		
-		assertEquals("None-Matching statusUpdate",statusUpdate, retrieved);
 
+		assertEquals("None-Matching statusUpdate", statusUpdate, retrieved);
+
+	}
+
+	@Test
+	public void findLatest() {
+		Calendar calendar = Calendar.getInstance();
+
+		StatusUpdate lastUpdate = null;
+
+		for (int i = 0; i < 10; i++) {
+			calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+			StatusUpdate update = new StatusUpdate("status update " + i, calendar.getTime());
+
+			statusUpdateDao.save(update);
+
+			lastUpdate = update;
+		}
+		
+		StatusUpdate retrieved = statusUpdateDao.findFirstByOrderByAddedDesc();
+		
+		System.out.println(retrieved);
+		
+		assertEquals("None-Matching statusUpdate",lastUpdate, retrieved);
 	}
 }
