@@ -36,3 +36,8 @@
 textarea {
 	width: 100%;
 }
+
+.errors {
+	color: #ff0000;
+	front-weight: bold;
+}
