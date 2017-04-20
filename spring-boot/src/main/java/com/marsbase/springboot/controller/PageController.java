@@ -3,6 +3,7 @@ package com.marsbase.springboot.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -64,9 +65,9 @@ public class PageController {
 
 		modelAndView.setViewName("app.viewStatus");
 
-		System.out.println();
-		System.out.println("**************pageNumber=" + pageNumber);
-		System.out.println();
+		Page<StatusUpdate> page = statusUpdateService.getPage(pageNumber);
+
+		modelAndView.getModel().put("page", page);
 
 		return modelAndView;
 	}
