@@ -15,35 +15,37 @@
 <c:set var="endPage"
 	value="${endPage > page.totalPages ? page.totalPages:endPage}"></c:set>
 
-<div class="pagination">
 
-	<c:if test="${block != 0}">
-		<a href="${url}?p=${(block - 1) * size + 1}&b=${block - 1}">&lt;&lt;</a>
-	</c:if>
+<c:if test="${page.totalPages != 1}">
+	<div class="pagination">
 
+		<c:if test="${block != 0}">
+			<a href="${url}?p=${(block - 1) * size + 1}&b=${block - 1}">&lt;&lt;</a>
+		</c:if>
 
-	<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
+		<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
 
-		<c:choose>
-			<c:when test="${page.number != pageNumber-1}">
-				<a href="${url}?p=${pageNumber}&b=${block}"><c:out
-						value="${pageNumber} "></c:out></a>
-			</c:when>
+			<c:choose>
+				<c:when test="${page.number != pageNumber-1}">
+					<a href="${url}?p=${pageNumber}&b=${block}"><c:out
+							value="${pageNumber} "></c:out></a>
+				</c:when>
 
-			<c:otherwise>
-				<strong><c:out value="${pageNumber} "></c:out></strong>
-			</c:otherwise>
+				<c:otherwise>
+					<strong><c:out value="${pageNumber} "></c:out></strong>
+				</c:otherwise>
 
-		</c:choose>
+			</c:choose>
 
-		<c:if test="${pageNumber != endPage}">|
+			<c:if test="${pageNumber != endPage}">|
 				</c:if>
 
-	</c:forEach>
+		</c:forEach>
 
-	<c:if test="${endPage != page.totalPages}">
-		<a href="${url}?p=${(block + 1) * size + 1}&b=${block + 1}">&gt;&gt;</a>
-	</c:if>
+		<c:if test="${endPage != page.totalPages}">
+			<a href="${url}?p=${(block + 1) * size + 1}&b=${block + 1}">&gt;&gt;</a>
+		</c:if>
 
-</div>
+	</div>
+</c:if>
 
