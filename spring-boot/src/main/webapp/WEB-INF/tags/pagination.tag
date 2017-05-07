@@ -12,19 +12,22 @@
 <c:set var="block" value="${empty param.b ? 0 : param.b}"></c:set>
 <c:set var="startPage" value="${block * size + 1}"></c:set>
 <c:set var="endPage" value="${(block + 1) * size}"></c:set>
-<c:set var="endPage" value="${endPage > page.totalPages ? page.totalPages:endPage}"></c:set>
+<c:set var="endPage"
+	value="${endPage > page.totalPages ? page.totalPages:endPage}"></c:set>
 
-block=${block}
-size=${size}
 <div class="pagination">
 
-	<a href="${url}?b=${block - 1}">&lt;&lt;</a>
+	<c:if test="${block != 0}">
+		<a href="${url}?p=${(block - 1) * size + 1}&b=${block - 1}">&lt;&lt;</a>
+	</c:if>
+
 
 	<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
 
 		<c:choose>
 			<c:when test="${page.number != pageNumber-1}">
-				<a href="${url}?p=${pageNumber}"><c:out value="${pageNumber} "></c:out></a>
+				<a href="${url}?p=${pageNumber}&b=${block}"><c:out
+						value="${pageNumber} "></c:out></a>
 			</c:when>
 
 			<c:otherwise>
@@ -33,11 +36,14 @@ size=${size}
 
 		</c:choose>
 
-		<c:if test="${pageNumber != page.totalPages}">|
+		<c:if test="${pageNumber != endPage}">|
 				</c:if>
 
 	</c:forEach>
 
-	<a href="${url}?b=${block + 1}">&gt;&gt;</a>
+	<c:if test="${endPage != page.totalPages}">
+		<a href="${url}?p=${(block + 1) * size + 1}&b=${block + 1}">&gt;&gt;</a>
+	</c:if>
+
 </div>
 
