@@ -41,3 +41,10 @@ textarea {
 	color: #ff0000;
 	front-weight: bold;
 }
+
+.pagination {
+	margin-top: 20px;
+	margin-bottom: 40px;
+	color: #535664;
+	front-weight: bold;
+}
