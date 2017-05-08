@@ -14,20 +14,20 @@
 				<div class="panel-title">Add a Status Update</div>
 			</div>
 
-			<div class="panel-body">
-				<form:form modelAttribute="statusUpdate">
-				
-					<div class="errors">
-						<form:errors path="text" />
-					</div>
 
-					<div class="from-group">
-						<form:textarea path="text" name="text" rows="10" cols="50"></form:textarea>
-					</div>
+			<form:form modelAttribute="statusUpdate">
 
-					<input type="submit" name="submit" value="Add Status" />
-				</form:form>
-			</div>
+				<div class="errors">
+					<form:errors path="text" />
+				</div>
+
+				<div class="from-group">
+					<form:textarea path="text" name="text" rows="10" cols="50"></form:textarea>
+				</div>
+
+				<input type="submit" name="submit" value="Add Status" />
+			</form:form>
+
 		</div>
 
 		<div class="panel panel-default">
@@ -44,9 +44,13 @@
 				<c:out value="${latestUpdate.text}"></c:out>
 			</div>
 		</div>
-
 	</div>
-
-
-
 </div>
+
+<script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+<script>
+	tinymce.init({
+		selector : 'textarea',
+		plugins : "link"
+	});
+</script>

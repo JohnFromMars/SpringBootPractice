@@ -18,7 +18,7 @@
 .navbar>.container>.navbar-header>a {
 	background: none;
 	color: #ff8040;
-	front-weight: bold;
+	c
 }
 
 .navbar>.container>.navbar-header>a:hover {
@@ -26,6 +26,17 @@
 	color: #ff8040;
 	front-weight: bold;
 }
+
+.navbar-default .navbar-nav>.open>a {
+	background: none;
+	color: #ff8040;
+}
+
+.navbar-default .navbar-nav>.open>a:focus {
+	background-color: #535664;
+	color: #ff8040;
+}
+
 
 .panel>.panel-heading {
 	background-color: #535664;
