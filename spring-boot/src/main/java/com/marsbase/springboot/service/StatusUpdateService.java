@@ -11,7 +11,7 @@ import com.marsbase.springboot.model.StatusUpdate;
 
 @Service
 public class StatusUpdateService {
-	private final static int PAGE_SIZE = 3;
+	private final static int PAGE_SIZE = 5;
 
 	@Autowired
 	private StatusUpdateDao statusUpdateDao;

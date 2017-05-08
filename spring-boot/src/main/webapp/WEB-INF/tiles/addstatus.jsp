@@ -41,7 +41,7 @@
 			</div>
 
 			<div class="panel-body">
-				<c:out value="${latestUpdate.text}"></c:out>
+				${latestUpdate.text}
 			</div>
 		</div>
 	</div>

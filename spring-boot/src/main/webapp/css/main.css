@@ -37,7 +37,6 @@
 	color: #ff8040;
 }
 
-
 .panel>.panel-heading {
 	background-color: #535664;
 	border-color: #535664;
@@ -64,4 +63,8 @@ textarea {
 	text-align: center;
 	margin-top: 30px;
 	front-size: larger;
+}
+
+.edit-link {
+	margin-top: 13px;
 }

@@ -67,4 +67,18 @@ public class StatusUpdateController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/editstatus", method = RequestMethod.POST)
+	public ModelAndView editStatus(ModelAndView modelAndView) {
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/deletestatus", method = RequestMethod.GET)
+	public ModelAndView deleteStatus(ModelAndView modelAndView, @RequestParam(value = "id") long id) {
+
+		modelAndView.setViewName("redirect:/viewstatus");
+		
+		return modelAndView;
+	}
+
 }
