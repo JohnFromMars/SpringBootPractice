@@ -12,7 +12,7 @@
 		<jwp:pagination url="${url}" page="${page}" />
 
 		<c:forEach var="statusUpdate" items="${page.content}">
-		
+
 			<c:url var="editLink" value="/editstatus?id=${statusUpdate.id}" />
 			<c:url var="deleteLink" value="/deletestatus?id=${statusUpdate.id}" />
 
@@ -27,9 +27,9 @@
 
 				<div class="panel-body">
 					<div>${statusUpdate.text}</div>
-					
+
 					<div class="edit-link pull-right">
-						<a href="${editLink}">Edit</a> | <a href="${deleteLink}">Delete</a>
+						<a class="btn btn-primary btn-sm" href="${editLink}">Edit</a>    <a class="btn btn-primary btn-sm" onclick="return confirm('Really want to delete?')" href="${deleteLink}">Delete</a>
 					</div>
 
 

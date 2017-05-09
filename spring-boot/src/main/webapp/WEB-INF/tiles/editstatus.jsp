@@ -11,40 +11,28 @@
 		<div class="panel panel-default">
 
 			<div class="panel-heading">
-				<div class="panel-title">Add a Status Update</div>
+				<div class="panel-title">Edit a Status Update</div>
 			</div>
 
 
 			<form:form modelAttribute="statusUpdate">
-
+				<form:input type="hidden" path="id" />
+				<form:input type="hidden" path="added" />
 
 
 				<div class="from-group">
 					<form:textarea path="text" name="text" rows="10" cols="50"></form:textarea>
 				</div>
+
 				<div class="errors">
 					<form:errors path="text" />
 				</div>
 				<div>
-					<input class="btn btn-primary pull-right" type="submit"
-						name="submit" value="Add Status" />
+					<input class="btn btn-primary pull-right edit-btn" type="submit"
+						name="submit" value="Save Status" />
 				</div>
-
 			</form:form>
 
-		</div>
-		<br /> <br />
-		<div class="panel panel-default">
-
-			<div class="panel-heading">
-				<div class="panel-title">
-					Status update added on
-					<fmt:formatDate pattern="'at' H :mm:ss   dd / MM / y"
-						value="${latestUpdate.added}" />
-				</div>
-			</div>
-
-			<div class="panel-body">${latestUpdate.text}</div>
 		</div>
 	</div>
 </div>

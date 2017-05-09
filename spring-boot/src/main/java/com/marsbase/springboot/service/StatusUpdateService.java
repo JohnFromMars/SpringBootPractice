@@ -25,8 +25,16 @@ public class StatusUpdateService {
 	}
 
 	public Page<StatusUpdate> getPage(int pageNumber) {
-		//since pageRequest is 0 base, pageNumber should miner 1.
+		// since pageRequest is 0 base, pageNumber should miner 1.
 		PageRequest request = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.DESC, "added");
 		return statusUpdateDao.findAll(request);
+	}
+
+	public void delete(long id) {
+		statusUpdateDao.delete(id);
+	}
+
+	public StatusUpdate find(long id) {
+		return statusUpdateDao.findOne(id);
 	}
 }
