@@ -16,27 +16,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		//@formatter:off
 		http.authorizeRequests()
-		    .antMatchers("/").permitAll()
+		
+		    //pages authorization
+		    .antMatchers("/","/about").permitAll()
+		    
+		    //resources authorization
 		    .antMatchers(
 		    		"/js/*",
 		    		"/css/*",
 		    		"/img/*"
 		    		).permitAll()
+		    
+		    //other request authorization
 		    .anyRequest().authenticated()
-		    .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll();
+		    
+		    //login page auth
+		    .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+		    
+		    //logout auth
+		    .and().logout().permitAll();
+
 		
 		//@formatter:on
 	}
-	
+
 	@Autowired
-	public void configureGlobal( AuthenticationManagerBuilder auth) throws Exception{
-		
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
 		//@formatter:off
 		auth.inMemoryAuthentication()
 		    .withUser("mars").password("mars").roles("USER");
 		
 		//@formatter:on
-		
+
 	}
 
 }

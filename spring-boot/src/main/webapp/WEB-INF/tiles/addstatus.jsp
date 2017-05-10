@@ -17,8 +17,6 @@
 
 			<form:form modelAttribute="statusUpdate">
 
-
-
 				<div class="from-group">
 					<form:textarea path="text" name="text" rows="10" cols="50"></form:textarea>
 				</div>

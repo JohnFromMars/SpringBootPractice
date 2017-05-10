@@ -17,9 +17,14 @@
 			</div>
 
 			<div class="panel-body">
-				<form method="post" action="${loginUrl}" class="login-form"  >
-				
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				<form method="post" action="${loginUrl}" class="login-form">
+
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+
+					<c:if test="${ param.error != null}">
+						<div class="login-error">Incorrect Password or User Name</div>
+					</c:if>
 
 					<div>
 						<label for="username" class="sr-only">User Name</label> <input

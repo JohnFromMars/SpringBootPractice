@@ -6,25 +6,24 @@
 .navbar>.container>div>.navbar-nav>li>a {
 	background: none;
 	color: #ff8040;
-	front-weight: bold;
+	font-weight: bold;
 }
 
 .navbar>.container>div>.navbar-nav>li>a:hover {
 	background: none;
 	color: #d1d1d1;
-	front-weight: bold;
+	font-weight: bold;
 }
 
 .navbar>.container>.navbar-header>a {
 	background: none;
 	color: #ff8040;
-	c
 }
 
 .navbar>.container>.navbar-header>a:hover {
 	background: none;
 	color: #ff8040;
-	front-weight: bold;
+	font-weight: bold;
 }
 
 .navbar-default .navbar-nav>.open>a {
@@ -49,20 +48,20 @@ textarea {
 
 .errors {
 	color: #ff0000;
-	front-weight: bold;
+	font-weight: bold;
 }
 
 .pagination {
 	margin-top: 20px;
 	margin-bottom: 40px;
 	color: #535664;
-	front-weight: bold;
+	font-weight: bold;
 }
 
 .homepage-status {
 	text-align: center;
 	margin-top: 30px;
-	front-size: larger;
+	font-size: larger;
 }
 
 .edit-link {
@@ -84,4 +83,9 @@ textarea {
 
 .login-form>div>input.placeholder {
 	text-align: center;
+}
+
+.login-error {
+	color: red;
+	font-weight: bold;
 }
