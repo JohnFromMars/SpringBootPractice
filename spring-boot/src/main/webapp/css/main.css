@@ -69,3 +69,19 @@ textarea {
 	margin-top: 13px;
 }
 
+.login-form {
+	width: 100%;
+}
+
+.login-form>div {
+	margin-top: 5px;
+}
+
+.login-form>div>button {
+	background: #535664;
+	border-color: #535664;
+}
+
+.login-form>div>input.placeholder {
+	text-align: center;
+}
