@@ -9,14 +9,25 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
 
 	@Override
 	public void initialize(PasswordMatch constraintAnnotation) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stubO
+
 	}
 
 	@Override
-	public boolean isValid(SiteUser value, ConstraintValidatorContext context) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isValid(SiteUser user, ConstraintValidatorContext context) {
+
+		String plainPassword = user.getPlainPassword();
+		String repeatPassword = user.getRepeatPassword();
+
+		if (plainPassword == null || plainPassword.length() == 0) {
+			return true;
+		}
+
+		if (plainPassword == null || !plainPassword.equals(repeatPassword)) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

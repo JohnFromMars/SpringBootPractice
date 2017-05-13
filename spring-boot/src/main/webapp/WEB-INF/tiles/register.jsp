@@ -10,6 +10,10 @@
 
 	<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 
+		<div class="login-error">
+			<form:errors path="user.*" />
+		</div>
+
 		<div class="panel panel-default">
 
 			<div class="panel-heading">
@@ -18,27 +22,24 @@
 
 			<div class="panel-body">
 				<form:form method="post" modelAttribute="user" class="login-form">
-					<div class="login-error">
-						<form:errors path="email" />
-						<form:errors  path="plainPassword" />
-					</div>
 
 					<div>
 						<label for="username" class="sr-only">Email</label>
 						<form:input path="email" type="text" class="form-control"
-							placeholder="Email" required="required"/>
+							placeholder="Email" required="required" />
 					</div>
 
 					<div>
 						<label for="password" class="sr-only">Password</label>
-						<form:input path="plainPassword" type="password" class="form-control"
-							placeholder="Password" required="required"/>
+						<form:input path="plainPassword" type="password"
+							class="form-control" placeholder="Password" required="required" />
 					</div>
 
 					<div>
-						<label for="password" class="sr-only">Repeat Password</label> <form:input
-							path="repeatPassword" type="password" id="repeatPassword"
-							class="form-control" placeholder="Repeat Password" required="required"/>
+						<label for="password" class="sr-only">Repeat Password</label>
+						<form:input path="repeatPassword" type="password"
+							id="repeatPassword" class="form-control"
+							placeholder="Repeat Password" required="required" />
 					</div>
 
 					<div>

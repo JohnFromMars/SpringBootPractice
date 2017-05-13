@@ -13,7 +13,10 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.marsbase.springboot.validation.PasswordMatch;
+
 @Entity
+@PasswordMatch(message="{register.repeatpassword.mismatch}")
 @Table(name = "users")
 public class SiteUser {
 
