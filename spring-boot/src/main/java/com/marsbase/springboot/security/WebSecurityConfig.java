@@ -6,10 +6,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.marsbase.springboot.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -18,7 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		
 		    //pages authorization
-		    .antMatchers("/","/about").permitAll()
+		    .antMatchers("/",
+		    		     "/about",
+		    		     "/register").permitAll()
 		    
 		    //resources authorization
 		    .antMatchers(
@@ -28,7 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    		).permitAll()
 		    
 		    //other request authorization
-		    .anyRequest().authenticated()
+		    //Admin authorization
+		    .antMatchers(
+		    		"/viewstatus",
+		    	    "/addstatus",
+		    	    "/deletestatus",
+		    	    "/editstatus"
+		    		).hasRole("ADMIN")
 		    
 		    //login page auth
 		    .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
@@ -40,15 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//@formatter:on
 	}
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	
 
-		//@formatter:off
-		auth.inMemoryAuthentication()
-		    .withUser("mars").password("mars").roles("USER");
-		
-		//@formatter:on
-
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
 	}
 
 }

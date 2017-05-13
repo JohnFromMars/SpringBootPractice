@@ -85,7 +85,8 @@ textarea {
 	text-align: center;
 }
 
+
 .login-error {
-	color: red;
+	color: #e42003;
 	font-weight: bold;
 }

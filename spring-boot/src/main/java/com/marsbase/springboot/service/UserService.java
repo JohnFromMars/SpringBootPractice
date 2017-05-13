@@ -20,7 +20,11 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
+
 	public void register(SiteUser siteUser) {
+		siteUser.setRole("ROLE_USER");
 		userDao.save(siteUser);
 	}
 
@@ -33,9 +37,9 @@ public class UserService implements UserDetailsService {
 			return null;
 		}
 
-		List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+		List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(siteUser.getRole());
 		String password = siteUser.getPassword();
-		
+
 		return new User(email, password, auth);
 	}
 
