@@ -19,7 +19,7 @@ public class AuthController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -41,18 +41,25 @@ public class AuthController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView register(ModelAndView modelAndView,@ModelAttribute("user") @Valid SiteUser user, BindingResult result) {
+	public ModelAndView register(ModelAndView modelAndView, @ModelAttribute("user") @Valid SiteUser user,
+			BindingResult result) {
 
 		modelAndView.setViewName("app.register");
 
 		if (!result.hasErrors()) {
 			userService.register(user);
-			
+
 			emailService.sendVerificationMail(user.getEmail());
-			
-			modelAndView.setViewName("redirect:/login");
+
+			modelAndView.setViewName("redirect:/verifyemail");
 		}
 
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/verifyemail", method = RequestMethod.GET)
+	public ModelAndView verifyEmail(ModelAndView modelAndView) {
+		modelAndView.setViewName("app.verifyEmail");
 		return modelAndView;
 	}
 }

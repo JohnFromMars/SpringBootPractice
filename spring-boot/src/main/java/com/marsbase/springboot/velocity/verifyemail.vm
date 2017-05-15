@@ -1,0 +1,10 @@
+<html>
+<body>
+
+
+<p>Thank you for registering to the MarsBase.</p>
+<p>test data: ${test}</p>
+<p>Please click<strong><a href="#"> here </a></strong>to verify your email.</p>
+
+</body>
+</html>

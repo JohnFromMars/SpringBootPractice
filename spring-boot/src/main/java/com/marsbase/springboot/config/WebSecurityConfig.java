@@ -27,9 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		
 		    //pages authorization
-		    .antMatchers("/",
-		    		     "/about",
-		    		     "/register").permitAll()
+		    .antMatchers(
+		    		"/",
+		    	    "/about",
+		    	    "/register",
+		            "/verifyemail").permitAll()
 		    
 		    //resources authorization
 		    .antMatchers(

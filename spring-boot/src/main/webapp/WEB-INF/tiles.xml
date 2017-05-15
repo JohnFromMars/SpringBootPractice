@@ -20,7 +20,7 @@
 	<definition name="app.addStatus" extends="app.default">
 		<put-attribute name="content" value="/WEB-INF/tiles/addstatus.jsp" />
 	</definition>
-	
+
 	<definition name="app.viewStatus" extends="app.default">
 		<put-attribute name="content" value="/WEB-INF/tiles/viewstatus.jsp" />
 	</definition>
@@ -32,9 +32,13 @@
 	<definition name="app.login" extends="app.default">
 		<put-attribute name="content" value="/WEB-INF/tiles/login.jsp" />
 	</definition>
-	
+
 	<definition name="app.register" extends="app.default">
 		<put-attribute name="content" value="/WEB-INF/tiles/register.jsp" />
+	</definition>
+
+	<definition name="app.verifyEmail" extends="app.default">
+		<put-attribute name="content" value="/WEB-INF/tiles/verifyemail.jsp" />
 	</definition>
 
 </tiles-definitions>
