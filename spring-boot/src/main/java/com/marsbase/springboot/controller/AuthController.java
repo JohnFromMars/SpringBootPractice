@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.service.EmailService;
 import com.marsbase.springboot.service.UserService;
 
 @Controller
@@ -18,6 +19,9 @@ public class AuthController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@RequestMapping("/login")
 	public String login() {
@@ -43,6 +47,9 @@ public class AuthController {
 
 		if (!result.hasErrors()) {
 			userService.register(user);
+			
+			emailService.sendVerificationMail(user.getEmail());
+			
 			modelAndView.setViewName("redirect:/login");
 		}
 
