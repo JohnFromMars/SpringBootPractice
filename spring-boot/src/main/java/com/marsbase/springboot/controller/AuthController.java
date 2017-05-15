@@ -51,6 +51,10 @@ public class AuthController {
 
 			emailService.sendVerificationMail(user.getEmail());
 
+			user.setEnabled(true);
+
+			userService.save(user);
+
 			modelAndView.setViewName("redirect:/verifyemail");
 		}
 
