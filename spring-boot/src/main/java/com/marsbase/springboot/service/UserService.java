@@ -20,8 +20,8 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
+	// @Autowired
+	// private PasswordEncoder passwordEncoder;
 
 	public void register(SiteUser siteUser) {
 		siteUser.setRole("ROLE_USER");
@@ -32,6 +32,7 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
 		SiteUser siteUser = userDao.findByEmail(email);
+		
 
 		if (siteUser == null) {
 			return null;
@@ -39,8 +40,9 @@ public class UserService implements UserDetailsService {
 
 		List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(siteUser.getRole());
 		String password = siteUser.getPassword();
+		boolean enabled =siteUser.isEnabled();
 
-		return new User(email, password, auth);
+		return new User(email, password, enabled, true, true, true, auth);
 	}
 
 }

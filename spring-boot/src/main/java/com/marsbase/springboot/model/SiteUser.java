@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.marsbase.springboot.validation.PasswordMatch;
 
 @Entity
-@PasswordMatch(message="{register.repeatpassword.mismatch}")
+@PasswordMatch(message = "{register.repeatpassword.mismatch}")
 @Table(name = "users")
 public class SiteUser {
 
@@ -36,12 +36,15 @@ public class SiteUser {
 
 	@Column(name = "password", length = 60)
 	private String password;
-	
+
 	@Transient
 	private String repeatPassword;
 
 	@Column(name = "role", length = 20)
 	private String role;
+
+	@Column(name = "enabled")
+	private Boolean enabled = false;
 
 	public long getId() {
 		return id;
@@ -91,7 +94,13 @@ public class SiteUser {
 	public void setRepeatPassword(String repeatPassword) {
 		this.repeatPassword = repeatPassword;
 	}
-	
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 }
