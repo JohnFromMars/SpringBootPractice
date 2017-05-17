@@ -66,4 +66,8 @@ public class UserService implements UserDetailsService {
 		return verificationDao.findByToken(token);
 	}
 
+	public void deleteToken(String token) {
+		verificationDao.deleteByToken(token);
+	}
+
 }

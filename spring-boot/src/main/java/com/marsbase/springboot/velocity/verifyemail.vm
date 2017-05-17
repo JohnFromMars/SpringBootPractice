@@ -2,8 +2,7 @@
 <body>
 
 <p>Thank you for registering to the MarsBase.</p>
-<p>test data: ${test}</p>
-<p>Please click<strong><a href="#"> here </a></strong>to verify your email.</p>
+<p>Please click<strong><a href="${url}/confirmregister?t=${token}"> here </a></strong>to verify your email.</p>
 
 </body>
 </html>

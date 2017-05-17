@@ -16,7 +16,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -31,7 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    		"/",
 		    	    "/about",
 		    	    "/register",
-		            "/verifyemail").permitAll()
+		            "/verifyemail",
+		            "/confirmregister",
+		            "/invaliduser",
+		            "/expiredtoken").permitAll()
 		    
 		    //resources authorization
 		    .antMatchers(
@@ -58,8 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//@formatter:on
 	}
-
-	
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
@@ -27,17 +28,22 @@ public class EmailService {
 	@Value("${mail.enable}")
 	private boolean enable;
 
+	@Value("${site.url}")
+	private String contextRoot;
+
 	public void send(MimeMessagePreparator preparator) {
 		if (enable) {
 			mailSender.send(preparator);
 		}
 	}
 
-	public void sendVerificationMail(String emailAddress) {
+	@Async
+	public void sendVerificationMail(String emailAddress, String token) {
 
 		HashMap<String, Object> model = new HashMap<>();
 
-		model.put("test", "this is dynamic");
+		model.put("token", token);
+		model.put("url", contextRoot);
 
 		String contenet = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
 				"/com/marsbase/springboot/velocity/verifyemail.vm", "UTF-8", model);
