@@ -41,9 +41,6 @@ public class AuthController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView register(ModelAndView modelAndView) throws FileNotFoundException {
 
-		if (true)
-			throw new FileNotFoundException();
-
 		// create blank object
 		SiteUser user = new SiteUser();
 
