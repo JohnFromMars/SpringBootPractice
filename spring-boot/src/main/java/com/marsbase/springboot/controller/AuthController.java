@@ -1,5 +1,6 @@
 package com.marsbase.springboot.controller;
 
+import java.io.FileNotFoundException;
 import java.util.Date;
 
 import javax.validation.Valid;
@@ -30,12 +31,7 @@ public class AuthController {
 
 	@Value("${meesage.registration.confirmed}")
 	private String registrationConfirmMessage;
-
-	@Value("${message.invalid.user}")
-	private String invalidUserMessage;
-
-	@Value("${message.expired.token}")
-	private String tokenExpiredMessage;
+	
 
 	@RequestMapping("/login")
 	public String login() {
@@ -43,7 +39,10 @@ public class AuthController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView register(ModelAndView modelAndView) {
+	public ModelAndView register(ModelAndView modelAndView) throws FileNotFoundException {
+
+		if (true)
+			throw new FileNotFoundException();
 
 		// create blank object
 		SiteUser user = new SiteUser();
@@ -83,7 +82,6 @@ public class AuthController {
 	public ModelAndView reegistrationConfirmed(ModelAndView modelAndView, @RequestParam("t") String token) {
 
 		VerificationToken verificationToken = userService.getVerificationToken(token);
-	
 
 		// check if the verification is null
 		if (verificationToken == null) {
@@ -100,36 +98,24 @@ public class AuthController {
 			return modelAndView;
 		}
 
-		//check the token user is null or not just in case.
+		// check the token user is null or not just in case.
 		SiteUser user = verificationToken.getUser();
-		
-		if(user==null){
+
+		if (user == null) {
 			modelAndView.setViewName("redirect:/invaliduser");
 			userService.deleteToken(token);
 			return modelAndView;
 		}
-		
+
 		// if all good, enable user, and go to confirm message
 		user.setEnabled(true);
 		userService.save(user);
 		userService.deleteToken(token);
-		
+
 		modelAndView.setViewName("app.message");
 		modelAndView.getModel().put("message", registrationConfirmMessage);
 		return modelAndView;
 	}
 
-	@RequestMapping("/invaliduser")
-	public ModelAndView invalidUser(ModelAndView modelAndView) {
-		modelAndView.setViewName("app.message");
-		modelAndView.getModel().put("message", invalidUserMessage);
-		return modelAndView;
-	}
 
-	@RequestMapping("/expiredtoken")
-	public ModelAndView expiredToken(ModelAndView modelAndView) {
-		modelAndView.setViewName("app.message");
-		modelAndView.getModel().put("message", tokenExpiredMessage);
-		return modelAndView;
-	}
 }

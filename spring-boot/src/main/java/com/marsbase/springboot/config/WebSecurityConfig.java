@@ -52,6 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    	    "/editstatus"
 		    		).hasRole("ADMIN")
 		    
+		    //Deny all the other request
+		    .anyRequest().denyAll()
+		    
 		    //login page auth
 		    .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
 		    

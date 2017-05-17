@@ -13,7 +13,10 @@
 			</div>
 
 			<div class="panel-body">
-				<strong><c:out value="${message}"></c:out></strong>
+
+				<div class="message">
+					<c:out value="${message}"></c:out>
+				</div>
 			</div>
 
 		</div>
