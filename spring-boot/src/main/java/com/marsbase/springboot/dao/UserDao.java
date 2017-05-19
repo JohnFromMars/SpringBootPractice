@@ -8,4 +8,5 @@ import com.marsbase.springboot.model.SiteUser;
 @Repository
 public interface UserDao extends CrudRepository<SiteUser, Long> {
 	SiteUser findByEmail(String email);
+	
 }

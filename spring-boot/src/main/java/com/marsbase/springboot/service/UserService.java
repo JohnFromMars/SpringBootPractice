@@ -70,4 +70,8 @@ public class UserService implements UserDetailsService {
 		verificationDao.deleteByToken(token);
 	}
 
+	public SiteUser getUser(String email) {
+		return userDao.findByEmail(email);
+	}
+
 }
