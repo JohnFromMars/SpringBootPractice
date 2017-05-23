@@ -1,5 +1,7 @@
 package com.marsbase.springboot;
 
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -68,6 +70,16 @@ public class App extends SpringBootServletInitializer {
 				container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/403"));
 			}
 		};
+	}
+
+	@Bean
+	public PolicyFactory getUserHtmlPolicy() {
+		//@formatter:off
+		return new HtmlPolicyBuilder()
+				      .allowCommonBlockElements()
+				      .allowCommonInlineFormattingElements()
+				      .toFactory();
+		//@formatter:on
 	}
 
 }

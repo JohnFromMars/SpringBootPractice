@@ -1,14 +1,22 @@
 package com.marsbase.springboot.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 
 import javax.validation.Valid;
 
+import org.owasp.html.PolicyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.marsbase.springboot.model.Profile;
@@ -24,6 +32,12 @@ public class ProfileController {
 
 	@Autowired
 	private ProfileService profileService;
+
+	@Autowired
+	private PolicyFactory policyFactory;
+
+	@Value("${photo.upload.directory}")
+	private String photoUploadDirectory;
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView showProfile(ModelAndView modelAndView, Principal principal) {
@@ -97,7 +111,7 @@ public class ProfileController {
 
 			// get the latest Profile.about from webProfile
 			// and save it to database
-			profile.safeMergeFrom(webProfile);
+			profile.safeMergeFrom(webProfile, policyFactory);
 			profileService.save(profile);
 
 			// go back to profile page
@@ -106,4 +120,22 @@ public class ProfileController {
 
 		return modelAndView;
 	}
+
+	@RequestMapping(value = "/upload-profile-photo", method = RequestMethod.POST)
+	public ModelAndView uploadFile(ModelAndView modelAndView, @RequestParam("file") MultipartFile file) {
+
+		Path outputFilePath = Paths.get(photoUploadDirectory, file.getOriginalFilename());
+		modelAndView.setViewName("redirect:/profile");
+
+		try {
+			java.nio.file.Files.deleteIfExists(outputFilePath);
+			Files.copy(file.getInputStream(), outputFilePath);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 }

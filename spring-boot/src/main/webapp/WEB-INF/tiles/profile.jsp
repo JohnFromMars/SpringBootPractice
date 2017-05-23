@@ -24,7 +24,7 @@
 			       </c:when>
 
 					<c:otherwise>
-						<c:out value=" ${profile.about}" />
+						${profile.about}
 					</c:otherwise>
 				</c:choose>
 
@@ -33,6 +33,19 @@
 			<div class="profile-about-edit pull-right">
 				<a class="btn btn-primary btn-md" href="${editProfileAbout}">Edit</a>
 			</div>
+
+			<p>&nbsp;</p>
+			<c:url var="uploadPhotoLink" value="/upload-profile-photo"></c:url>
+
+			<form action="${uploadPhotoLink}" method="post"
+				enctype="multipart/form-data">
+
+				select photo:<input type="file" accept="image/*" name="file">
+				<input type="submit" value="Upload">
+				 <input type="hidden"
+					name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+			</form>
 		</div>
 
 

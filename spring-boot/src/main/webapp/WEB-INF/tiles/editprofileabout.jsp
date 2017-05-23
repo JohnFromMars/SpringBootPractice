@@ -20,8 +20,7 @@
 				<div class="from-group">
 					<form:textarea path="about" name="text" rows="10" cols="50"></form:textarea>
 				</div>
-				
-					
+
 				<div>
 					<input class="btn btn-primary pull-right edit-btn" type="submit"
 						name="submit" value="Save Profile" />
@@ -29,12 +28,16 @@
 			</form:form>
 
 		</div>
+		
+		<div class="errors">
+			<form:errors path="profile.*"></form:errors>
+		</div>
 	</div>
 </div>
 
 <script
 	src='https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wyibiexh84273ei0ny692ucrn5zg5it88fj9wtko1akhq0pw'></script>
-<script>
+  <script>
 	tinymce.init({
 		selector : 'textarea'
 	});
