@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.common.io.Files;
 import com.marsbase.springboot.exception.InvalidFileException;
+import com.marsbase.springboot.model.FileInfo;
 
 @Service
 public class FileService {
@@ -22,7 +22,6 @@ public class FileService {
 	private Random random = new Random();
 
 	private String getFileExtension(String fileName) {
-
 		int doPosition = fileName.lastIndexOf(".");
 
 		if (doPosition < 0) {
@@ -59,12 +58,12 @@ public class FileService {
 		return directory;
 	}
 
-	public void saveImageFile(MultipartFile file, String baseDirectory, String subDirctoryPrefix, String filePrefix)
+	public FileInfo saveImageFile(MultipartFile file, String baseDirectory, String subDirctoryPrefix, String filePrefix)
 			throws InvalidFileException, IOException {
 
 		int nFileName = random.nextInt(RANDOM_BOUND);
 		String fileName = String.format("%s%03d", filePrefix, nFileName);
-		String extension = getFileExtension(fileName);
+		String extension = getFileExtension(file.getOriginalFilename());
 
 		if (extension == null) {
 			throw new InvalidFileException("No extension.");
@@ -80,8 +79,10 @@ public class FileService {
 		// delete if file already exist
 		java.nio.file.Files.deleteIfExists(filePath);
 
-		//copy file
+		// copy file
 		java.nio.file.Files.copy(file.getInputStream(), filePath);
+
+		return new FileInfo(fileName, extension, subDirectory.getName(), baseDirectory);
 	}
 
 }

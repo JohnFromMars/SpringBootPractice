@@ -1,9 +1,6 @@
 package com.marsbase.springboot.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
 
 import javax.validation.Valid;
@@ -19,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.marsbase.springboot.exception.InvalidFileException;
+import com.marsbase.springboot.model.FileInfo;
 import com.marsbase.springboot.model.Profile;
 import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.service.FileService;
 import com.marsbase.springboot.service.ProfileService;
 import com.marsbase.springboot.service.UserService;
 
@@ -32,6 +32,9 @@ public class ProfileController {
 
 	@Autowired
 	private ProfileService profileService;
+
+	@Autowired
+	private FileService fileService;
 
 	@Autowired
 	private PolicyFactory policyFactory;
@@ -124,14 +127,13 @@ public class ProfileController {
 	@RequestMapping(value = "/upload-profile-photo", method = RequestMethod.POST)
 	public ModelAndView uploadFile(ModelAndView modelAndView, @RequestParam("file") MultipartFile file) {
 
-		Path outputFilePath = Paths.get(photoUploadDirectory, file.getOriginalFilename());
 		modelAndView.setViewName("redirect:/profile");
 
 		try {
-			java.nio.file.Files.deleteIfExists(outputFilePath);
-			Files.copy(file.getInputStream(), outputFilePath);
+			FileInfo photoFileInfo = fileService.saveImageFile(file, photoUploadDirectory, "photo", "profile");
+			System.out.println("photoFileInfo=" + photoFileInfo);
 
-		} catch (IOException e) {
+		} catch (InvalidFileException | IOException e) {
 			e.printStackTrace();
 		}
 
