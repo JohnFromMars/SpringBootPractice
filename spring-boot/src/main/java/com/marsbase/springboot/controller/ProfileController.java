@@ -50,10 +50,18 @@ public class ProfileController {
 
 	@Value("${photo.upload.directory}")
 	private String photoUploadDirectory;
+	
 	@Value("${photo.default.subdir}")
 	private String defaultPhotoSubdir;
+	
 	@Value("${photo.default.name}")
 	private String defaultPhotoName;
+	
+	@Value("${photo.default.height}")
+	private int defaultHeight;
+	
+	@Value("${photo.default.width}")
+	private int defaultWidth;
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView showProfile(ModelAndView modelAndView, Principal principal) {
@@ -147,8 +155,8 @@ public class ProfileController {
 		Path oldPhotoPath = profile.getPhotoPath(photoUploadDirectory);
 
 		try {
-			FileInfo photoFileInfo = fileService.saveImageFile(file, photoUploadDirectory, "photo",
-					"p" + user.getId());
+			FileInfo photoFileInfo = fileService.saveImageFile(file, photoUploadDirectory, "photo", "p" + user.getId(),
+					defaultWidth, defaultHeight);
 			System.out.println("photoFileInfo=" + photoFileInfo);
 			profile.setPhotoDetail(photoFileInfo);
 			profileService.save(profile);

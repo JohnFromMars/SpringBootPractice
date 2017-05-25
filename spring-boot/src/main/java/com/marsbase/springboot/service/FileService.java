@@ -1,10 +1,13 @@
 package com.marsbase.springboot.service;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -58,8 +61,8 @@ public class FileService {
 		return directory;
 	}
 
-	public FileInfo saveImageFile(MultipartFile file, String baseDirectory, String subDirctoryPrefix, String filePrefix)
-			throws InvalidFileException, IOException {
+	public FileInfo saveImageFile(MultipartFile file, String baseDirectory, String subDirctoryPrefix, String filePrefix,
+			int width, int height) throws InvalidFileException, IOException {
 
 		int nFileName = random.nextInt(RANDOM_BOUND);
 		String fileName = String.format("%s%03d", filePrefix, nFileName);
@@ -76,13 +79,17 @@ public class FileService {
 		File subDirectory = makeSubdirectory(baseDirectory, subDirctoryPrefix);
 		Path filePath = Paths.get(subDirectory.getCanonicalPath(), fileName + "." + extension);
 
-		// delete if file already exist
-		java.nio.file.Files.deleteIfExists(filePath);
+		BufferedImage resizeImage = resizeImage(file, width, height);
 
 		// copy file
-		java.nio.file.Files.copy(file.getInputStream(), filePath);
+		ImageIO.write(resizeImage, extension, filePath.toFile());
 
 		return new FileInfo(fileName, extension, subDirectory.getName(), baseDirectory);
+	}
+
+	private BufferedImage resizeImage(MultipartFile file, int width, int height) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
