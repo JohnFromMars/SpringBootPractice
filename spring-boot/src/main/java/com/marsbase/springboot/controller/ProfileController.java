@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,13 +79,14 @@ public class ProfileController {
 	@Value("${photo.upload.toosmall}")
 	private String photoStatusTooSmall;
 
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public ModelAndView showProfile(ModelAndView modelAndView, Principal principal) {
+	private ModelAndView showProfile(SiteUser user) {
+		ModelAndView modelAndView = new ModelAndView();
 
-		String email = principal.getName();
-
-		// get all SiteUser data by email from database
-		SiteUser user = userService.getUser(email);
+		// check if the user is null, if it is, redirect to home
+		if (user == null) {
+			modelAndView.setViewName("redirect:/");
+			return modelAndView;
+		}
 
 		// get Profile data by SiteUser
 		Profile profile = profileService.getUserProfile(user);
@@ -104,7 +106,33 @@ public class ProfileController {
 		profileCopy.safeCopyFrom(profile);
 
 		modelAndView.getModel().put("profile", profileCopy);
+		modelAndView.getModel().put("userId", user.getId());
 		modelAndView.setViewName("app.profile");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public ModelAndView showProfile(Principal principal) {
+
+		String email = principal.getName();
+
+		// get all SiteUser data by email from database
+		SiteUser user = userService.getUser(email);
+
+		ModelAndView modelAndView = showProfile(user);
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
+	public ModelAndView showProfile(@PathVariable("id") Long id) {
+
+		System.out.println("===================id=" + id);
+
+		SiteUser user = userService.getUser(id);
+
+		ModelAndView modelAndView = showProfile(user);
 
 		return modelAndView;
 	}
@@ -176,8 +204,8 @@ public class ProfileController {
 			FileInfo photoFileInfo = fileService.saveImageFile(file, photoUploadDirectory, "photo", "p" + user.getId(),
 					defaultWidth, defaultHeight);
 			System.out.println("photoFileInfo=" + photoFileInfo);
-			
-			//update profile photo filename and path then save it to database
+
+			// update profile photo filename and path then save it to database
 			profile.setPhotoDetail(photoFileInfo);
 			profileService.save(profile);
 
@@ -186,7 +214,7 @@ public class ProfileController {
 				Files.delete(oldPhotoPath);
 			}
 
-			//different error message for different exception
+			// different error message for different exception
 		} catch (InvalidFileException e) {
 			status.setMessage(photoStatusInvalid);
 			e.printStackTrace();
@@ -204,10 +232,11 @@ public class ProfileController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/profile-photo", method = RequestMethod.GET)
-	public ResponseEntity<InputStreamResource> servePhoto(Principal principal) throws IOException {
+	@RequestMapping(value = "/profile-photo/{id}", method = RequestMethod.GET)
+	public ResponseEntity<InputStreamResource> servePhoto( @PathVariable("id") Long id)
+			throws IOException {
 
-		SiteUser user = userService.getUser(principal.getName());
+		SiteUser user = userService.getUser(id);
 		Profile profile = profileService.getUserProfile(user);
 
 		Path photoPath = Paths.get(photoUploadDirectory, defaultPhotoSubdir, defaultPhotoName);
