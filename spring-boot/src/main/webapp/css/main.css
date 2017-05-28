@@ -116,5 +116,19 @@ textarea {
 }
 
 .profile-about-edit {
-	margin-top: 15px;
+	position: absolute;
+	bottom: 30px;
+	right: 50px;
+}
+
+#profilePhotoStatus {
+	position: absolute;
+	top: 10px;
+	left: 65px;
+	font-weight: bold;
+	color: #ff8040;
+}
+
+#photoUploadForm {
+	display: none;
 }

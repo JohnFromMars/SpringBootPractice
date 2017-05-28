@@ -14,6 +14,7 @@ import org.owasp.html.PolicyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.marsbase.springboot.exception.ImageTooSmallException;
 import com.marsbase.springboot.exception.InvalidFileException;
 import com.marsbase.springboot.model.FileInfo;
 import com.marsbase.springboot.model.Profile;
@@ -32,6 +34,7 @@ import com.marsbase.springboot.model.SiteUser;
 import com.marsbase.springboot.service.FileService;
 import com.marsbase.springboot.service.ProfileService;
 import com.marsbase.springboot.service.UserService;
+import com.marsbase.springboot.status.PhotoUploadStatus;
 
 @Controller
 public class ProfileController {
@@ -50,18 +53,30 @@ public class ProfileController {
 
 	@Value("${photo.upload.directory}")
 	private String photoUploadDirectory;
-	
+
 	@Value("${photo.default.subdir}")
 	private String defaultPhotoSubdir;
-	
+
 	@Value("${photo.default.name}")
 	private String defaultPhotoName;
-	
+
 	@Value("${photo.default.height}")
 	private int defaultHeight;
-	
+
 	@Value("${photo.default.width}")
 	private int defaultWidth;
+
+	@Value("${photo.upload.ok}")
+	private String photoStatusOk;
+
+	@Value("${photo.upload.invalid}")
+	private String photoStatusInvalid;
+
+	@Value("${photo.upload.ioexception}")
+	private String photoStatusIoException;
+
+	@Value("${photo.upload.toosmall}")
+	private String photoStatusTooSmall;
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView showProfile(ModelAndView modelAndView, Principal principal) {
@@ -145,32 +160,47 @@ public class ProfileController {
 		return modelAndView;
 	}
 
+	@ResponseBody // return JSON data
 	@RequestMapping(value = "/upload-profile-photo", method = RequestMethod.POST)
-	public ModelAndView uploadFile(ModelAndView modelAndView, @RequestParam("file") MultipartFile file,
-			Principal principal) {
+	public ResponseEntity<PhotoUploadStatus> uploadFile(@RequestParam("file") MultipartFile file, Principal principal) {
 
-		modelAndView.setViewName("redirect:/profile");
 		SiteUser user = userService.getUser(principal.getName());
 		Profile profile = profileService.getUserProfile(user);
+		// get profile old photo path
 		Path oldPhotoPath = profile.getPhotoPath(photoUploadDirectory);
+		// default status set as ok
+		PhotoUploadStatus status = new PhotoUploadStatus(photoStatusOk);
 
 		try {
+			// save image file which filename=/photoXXXX/pXXXX.xx
 			FileInfo photoFileInfo = fileService.saveImageFile(file, photoUploadDirectory, "photo", "p" + user.getId(),
 					defaultWidth, defaultHeight);
 			System.out.println("photoFileInfo=" + photoFileInfo);
+			
+			//update profile photo filename and path then save it to database
 			profile.setPhotoDetail(photoFileInfo);
 			profileService.save(profile);
 
-			// delete old photo if it exsists
+			// delete old photo if it exists
 			if (oldPhotoPath != null) {
 				Files.delete(oldPhotoPath);
 			}
 
-		} catch (InvalidFileException | IOException e) {
+			//different error message for different exception
+		} catch (InvalidFileException e) {
+			status.setMessage(photoStatusInvalid);
+			e.printStackTrace();
+
+		} catch (IOException e) {
+			status.setMessage(photoStatusIoException);
+			e.printStackTrace();
+
+		} catch (ImageTooSmallException e) {
+			status.setMessage(photoStatusTooSmall);
 			e.printStackTrace();
 		}
 
-		return modelAndView;
+		return new ResponseEntity<PhotoUploadStatus>(status, HttpStatus.OK);
 	}
 
 	@ResponseBody

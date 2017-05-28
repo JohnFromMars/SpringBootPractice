@@ -11,9 +11,13 @@
 
 	<div class="col-md-10 col-md-offset-1">
 
+		<div id="profilePhotoStatus"></div>
+
 		<div class="profile-about">
 			<div class="profile-image">
-				<img alt="" src="${profilePhoto}">
+				<div>
+					<img id="profilePhoto" alt="" src="${profilePhoto}">
+				</div>
 			</div>
 
 			<div class="profile-text">
@@ -31,25 +35,87 @@
 			</div>
 
 			<div class="profile-about-edit pull-right">
-				<a class="btn btn-primary btn-md" href="${editProfileAbout}">Edit</a>
+				<a class="btn btn-primary btn-md" id="uploadPhotoLink" href="#">Upload
+					Photo</a> <a class="btn btn-primary btn-md" href="${editProfileAbout}">Edit
+					About</a>
 			</div>
 
-			<p>&nbsp;</p>
+
 			<c:url var="uploadPhotoLink" value="/upload-profile-photo"></c:url>
 
-			<form action="${uploadPhotoLink}" method="post"
+			<form action="${uploadPhotoLink}" method="post" id="photoUploadForm"
 				enctype="multipart/form-data">
 
-				select photo:<input type="file" accept="image/*" name="file">
-				<input type="submit" value="Upload">
-				 <input type="hidden"
+				<input type="file" accept="image/*" name="file" id="photoFileInput">
+				<input type="submit" value="Upload"> <input type="hidden"
 					name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 			</form>
 		</div>
-
-
-
 	</div>
 </div>
+
+<script>
+	function setUploadStatusText(text) {
+		$("#profilePhotoStatus").text(text);
+
+		window.setTimeout(function() {
+			$("#profilePhotoStatus").text("");
+		}, 2000);
+	}
+
+	function uploadSuccess(data) {
+		console.log("upload success");
+		$("#profilePhoto").attr("src", "${profilePhoto};time=" + new Date);
+		$("#photoFileInput").val("");
+		setUploadStatusText(data.message);
+
+	}
+
+	function uploadPhoto(event) {
+		console.log("in upload function");
+
+		$.ajax({
+			url : $(this).attr("action"),
+			type : 'POST',
+			data : new FormData(this),
+			processData : false,
+			contentType : false,
+
+			success : uploadSuccess,
+
+			error : function() {
+				setUploadStatusText("Server unreachable.");
+			}
+
+		});
+
+		event.preventDefault();
+	}
+
+	$(document).ready(function() {
+		console.log("ready");
+
+		$("#uploadPhotoLink").click(function(event) {
+			console.log("link clicked");
+			event.preventDefault();
+			$("#photoFileInput").trigger("click");
+		});
+
+		$("#photoFileInput").change(function() {
+			console.log("change happen");
+			$("#photoUploadForm").submit();
+			console.log("submit");
+		});
+
+		$("#photoUploadForm").on("submit", uploadPhoto);
+	});
+</script>
+
+
+
+
+
+
+
 
