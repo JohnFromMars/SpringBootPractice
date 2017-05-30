@@ -46,6 +46,16 @@ public class SiteUser {
 	@Column(name = "enabled")
 	private Boolean enabled = false;
 
+	public SiteUser() {
+	}
+
+	public SiteUser(String email, String plainPassword) {
+		this.email = email;
+		this.repeatPassword = plainPassword;
+		setPlainPassword(plainPassword);
+		this.enabled = true;
+	}
+
 	public long getId() {
 		return id;
 	}

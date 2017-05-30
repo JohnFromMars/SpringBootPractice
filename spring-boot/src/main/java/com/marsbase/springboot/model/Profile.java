@@ -46,10 +46,20 @@ public class Profile {
 	private String photoExtension;
 
 	@ManyToMany
-	@JoinTable(name = "profile_interests", joinColumns = { @JoinColumn(name = "profile_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "interest_id") })
+	//@formatter:off
+	@JoinTable(name = "profile_interests", 
+	           joinColumns = {@JoinColumn(name = "profile_id") },
+	           inverseJoinColumns = {@JoinColumn(name = "interest_id") })
+	//@formatter:on
 	@OrderColumn(name = "display_order")
 	private Set<Interest> interests;
+
+	public Profile() {
+	}
+
+	public Profile(SiteUser user) {
+		this.user = user;
+	}
 
 	public Long getId() {
 		return id;
@@ -107,13 +117,30 @@ public class Profile {
 		this.interests = interests;
 	}
 
+	/**
+	 * create a profile which has no user information that is suitable
+	 * displaying on JSP.
+	 * 
+	 * @param other
+	 */
 	public void safeCopyFrom(Profile other) {
 
 		if (other.about != null) {
 			this.about = other.about;
 		}
+
+		if (other.interests != null) {
+			this.interests = other.interests;
+		}
 	}
 
+	/**
+	 * create a profile without strange HTML or script that is suitable for
+	 * saving database
+	 * 
+	 * @param other
+	 * @param policyFactory
+	 */
 	public void safeMergeFrom(Profile other, PolicyFactory policyFactory) {
 		if (other.about != null) {
 			this.about = policyFactory.sanitize(other.about);

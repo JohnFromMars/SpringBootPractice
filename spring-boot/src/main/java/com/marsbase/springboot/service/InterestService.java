@@ -1,5 +1,7 @@
 package com.marsbase.springboot.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,17 @@ public class InterestService {
 
 	public Long count() {
 		return interestDao.count();
+	}
+
+	@Transactional
+	public Interest createIfNotExist(String interestText) {
+		Interest interest = interestDao.findOneByName(interestText);
+
+		if (interest == null) {
+			interest = new Interest(interestText);
+			interestDao.save(interest);
+		}
+
+		return interest;
 	}
 }
