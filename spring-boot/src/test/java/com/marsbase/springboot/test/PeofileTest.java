@@ -64,14 +64,14 @@ public class PeofileTest {
 			}
 
 			Profile profile = new Profile(siteUser);
-//			profile.setInterests(interestSet);
+			profile.setInterests(interestSet);
 			profileService.save(profile);
-//
-//			Profile retrieveProfile = profileService.getUserProfile(siteUser);
-//
-//			assertNotNull("profile should nt be null", retrieveProfile);
+
+			Profile retrieveProfile = profileService.getUserProfile(siteUser);
+
+			assertNotNull("profile should nt be null", retrieveProfile);
 //			assertEquals("user should be the same", siteUser, retrieveProfile.getUser());
-//			assertEquals("interests should be the same", interestSet, retrieveProfile.getInterests());
+			assertEquals("interests should be the same", interestSet, retrieveProfile.getInterests());
 
 		}
 

@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.security.Principal;
 
 import javax.validation.Valid;
 
@@ -17,6 +16,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.marsbase.springboot.exception.ImageTooSmallException;
 import com.marsbase.springboot.exception.InvalidFileException;
 import com.marsbase.springboot.model.FileInfo;
+import com.marsbase.springboot.model.Interest;
 import com.marsbase.springboot.model.Profile;
 import com.marsbase.springboot.model.SiteUser;
 import com.marsbase.springboot.service.FileService;
+import com.marsbase.springboot.service.InterestService;
 import com.marsbase.springboot.service.ProfileService;
 import com.marsbase.springboot.service.UserService;
 import com.marsbase.springboot.status.PhotoUploadStatus;
@@ -51,6 +54,9 @@ public class ProfileController {
 
 	@Autowired
 	private PolicyFactory policyFactory;
+
+	@Autowired
+	private InterestService interestService;
 
 	@Value("${photo.upload.directory}")
 	private String photoUploadDirectory;
@@ -78,6 +84,11 @@ public class ProfileController {
 
 	@Value("${photo.upload.toosmall}")
 	private String photoStatusTooSmall;
+
+	private String getUserName() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication.getName();
+	}
 
 	private ModelAndView showProfile(SiteUser user) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -113,9 +124,9 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public ModelAndView showProfile(Principal principal) {
+	public ModelAndView showProfile() {
 
-		String email = principal.getName();
+		String email = getUserName();
 
 		// get all SiteUser data by email from database
 		SiteUser user = userService.getUser(email);
@@ -138,9 +149,9 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "/edit-profile-about", method = RequestMethod.GET)
-	public ModelAndView editProfileAbout(ModelAndView modelAndView, Principal principal) {
+	public ModelAndView editProfileAbout(ModelAndView modelAndView) {
 
-		SiteUser user = userService.getUser(principal.getName());
+		SiteUser user = userService.getUser(getUserName());
 
 		Profile profile = profileService.getUserProfile(user);
 
@@ -165,15 +176,14 @@ public class ProfileController {
 	}
 
 	@RequestMapping(value = "/edit-profile-about", method = RequestMethod.POST)
-	public ModelAndView editProfileAbout(ModelAndView modelAndView, @Valid Profile webProfile, BindingResult result,
-			Principal principal) {
+	public ModelAndView editProfileAbout(ModelAndView modelAndView, @Valid Profile webProfile, BindingResult result) {
 
 		modelAndView.setViewName("app.editProfileAbout");
 
 		if (!result.hasErrors()) {
 
 			// get the profile data from database by user name
-			SiteUser user = userService.getUser(principal.getName());
+			SiteUser user = userService.getUser(getUserName());
 			Profile profile = profileService.getUserProfile(user);
 
 			// get the latest Profile.about from webProfile
@@ -190,9 +200,9 @@ public class ProfileController {
 
 	@ResponseBody // return JSON data
 	@RequestMapping(value = "/upload-profile-photo", method = RequestMethod.POST)
-	public ResponseEntity<PhotoUploadStatus> uploadFile(@RequestParam("file") MultipartFile file, Principal principal) {
+	public ResponseEntity<PhotoUploadStatus> uploadFile(@RequestParam("file") MultipartFile file) {
 
-		SiteUser user = userService.getUser(principal.getName());
+		SiteUser user = userService.getUser(getUserName());
 		Profile profile = profileService.getUserProfile(user);
 		// get profile old photo path
 		Path oldPhotoPath = profile.getPhotoPath(photoUploadDirectory);
@@ -233,8 +243,7 @@ public class ProfileController {
 
 	@ResponseBody
 	@RequestMapping(value = "/profile-photo/{id}", method = RequestMethod.GET)
-	public ResponseEntity<InputStreamResource> servePhoto( @PathVariable("id") Long id)
-			throws IOException {
+	public ResponseEntity<InputStreamResource> servePhoto(@PathVariable("id") Long id) throws IOException {
 
 		SiteUser user = userService.getUser(id);
 		Profile profile = profileService.getUserProfile(user);
@@ -256,4 +265,35 @@ public class ProfileController {
 		//@formatter:on
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/save-interest", method = RequestMethod.POST)
+	public ResponseEntity<?> saveInterest(@RequestParam("name") String interestName) {
+
+		SiteUser user = userService.getUser(getUserName());
+		Profile profile = profileService.getUserProfile(user);
+
+		// avoid script inject attack
+		String cleanInterestName = policyFactory.sanitize(interestName);
+
+		Interest interest = interestService.createIfNotExist(cleanInterestName);
+
+		profile.addInterest(interest);
+
+		profileService.save(profile);
+
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/delete-interest", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteInterest(@RequestParam("name") String interestName) {
+		SiteUser user = userService.getUser(getUserName());
+		Profile profile = profileService.getUserProfile(user);
+
+		profile.removeInterest(interestName);
+
+		profileService.save(profile);
+
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
 }

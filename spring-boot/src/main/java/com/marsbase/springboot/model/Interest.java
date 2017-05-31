@@ -72,4 +72,11 @@ public class Interest implements Comparable<Interest> {
 		return this.name.compareTo(other.name);
 	}
 
+	@Override
+	public String toString() {
+		return "Interest [name=" + name + "]";
+	}
+	
+	
+
 }

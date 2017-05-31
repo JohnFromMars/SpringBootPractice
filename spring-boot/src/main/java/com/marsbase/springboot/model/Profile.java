@@ -2,10 +2,12 @@ package com.marsbase.springboot.model;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,7 +47,7 @@ public class Profile {
 	@Column(name = "photo_extension", length = 5)
 	private String photoExtension;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	//@formatter:off
 	@JoinTable(name = "profile_interests", 
 	           joinColumns = {@JoinColumn(name = "profile_id") },
@@ -55,10 +57,12 @@ public class Profile {
 	private Set<Interest> interests;
 
 	public Profile() {
+		this.interests = new HashSet<Interest>();
 	}
 
 	public Profile(SiteUser user) {
 		this.user = user;
+		this.interests = new HashSet<Interest>();
 	}
 
 	public Long getId() {
@@ -163,4 +167,15 @@ public class Profile {
 		return path;
 	}
 
+	public void addInterest(Interest interest) {
+		if (interest != null) {
+			this.interests.add(interest);
+		}
+	}
+
+	public void removeInterest(String interestName) {
+		if (interestName != null) {
+			interests.remove(new Interest(interestName));
+		}
+	}
 }
