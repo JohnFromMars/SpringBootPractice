@@ -6,6 +6,8 @@
 
 <c:url var="profilePhoto" value="/profile-photo/${userId}" />
 <c:url var="editProfileAbout" value="/edit-profile-about" />
+<c:url var="saveInterest" value="/save-interest" />
+<c:url var="deleteInterest" value="/delete-interest" />
 
 <div class="row">
 
@@ -19,6 +21,13 @@
 					<img id="profilePhoto" alt="" src="${profilePhoto}">
 				</div>
 			</div>
+
+			<div id="interestDiv">
+				<ul id="interestList">
+					<li id="addingMessage">Add your interests here :</li>
+				</ul>
+			</div>
+
 
 			<div class="profile-text">
 
@@ -93,8 +102,39 @@
 		event.preventDefault();
 	}
 
+	function saveInterest(text) {
+		console.log(text);
+		editInterest(text, '${saveInterest}');
+	}
+
+	function deleteFunction(text) {
+		console.log(text);
+		editInterest(text, '${deleteInterest}');
+	}
+
+	function editInterest(text, actionUrl) {
+        console.log(actionUrl);
+	}
+
 	$(document).ready(function() {
 		console.log("ready");
+
+		$("#interestList").tagit({
+
+			caseSensitive : false,
+			allowSpaces : true,
+			tagLimit : 15,
+			afterTagRemoved : function(event, ui) {
+				deleteFunction(ui.tagLabel)
+			},
+
+			afterTagAdded : function(event, ui) {
+				if (ui.duringInitialization != true) {
+					saveInterest(ui.tagLabel);
+				}
+			}
+
+		});
 
 		$("#uploadPhotoLink").click(function(event) {
 			console.log("link clicked");
