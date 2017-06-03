@@ -132,6 +132,7 @@ public class ProfileController {
 		SiteUser user = userService.getUser(email);
 
 		ModelAndView modelAndView = showProfile(user);
+		modelAndView.getModel().put("ownProfile", true);
 
 		return modelAndView;
 	}
@@ -141,9 +142,13 @@ public class ProfileController {
 
 		System.out.println("===================id=" + id);
 
+		// get the profile from input id parameter
 		SiteUser user = userService.getUser(id);
-
 		ModelAndView modelAndView = showProfile(user);
+
+		System.out.println("user id=" + user.getId() + ", param id=" + id);
+
+		modelAndView.getModel().put("ownProfile", false);
 
 		return modelAndView;
 	}

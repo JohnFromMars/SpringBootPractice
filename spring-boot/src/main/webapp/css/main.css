@@ -160,3 +160,11 @@ ul#interestList a.tagit-close:hover {
 ul#interestList a.tagit-close:hover>span.text-icon {
 	color: white;
 }
+
+div[role=status]{
+	display:none;
+}
+
+#ui-id-1{
+	display:none;
+}
