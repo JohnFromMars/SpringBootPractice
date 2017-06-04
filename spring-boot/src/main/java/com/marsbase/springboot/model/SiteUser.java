@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -24,6 +25,16 @@ public class SiteUser {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+
+	@NotNull
+	@Column(name = "first_name")
+	@Size(min = 1, max = 25, message = "{register.firstname.size}")
+	private String firstName;
+
+	@NotNull
+	@Column(name = "last_name")
+	@Size(min = 1, max = 25, message = "{register.lastname.size}")
+	private String lastName;
 
 	@Column(name = "email", unique = true)
 	@Email(message = "{register.email.invalid}")
@@ -49,11 +60,30 @@ public class SiteUser {
 	public SiteUser() {
 	}
 
-	public SiteUser(String email, String plainPassword) {
+	public SiteUser(String email, String plainPassword, String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.repeatPassword = plainPassword;
 		setPlainPassword(plainPassword);
 		this.enabled = true;
+
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public long getId() {

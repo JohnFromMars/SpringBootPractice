@@ -161,10 +161,30 @@ ul#interestList a.tagit-close:hover>span.text-icon {
 	color: white;
 }
 
-div[role=status]{
-	display:none;
+div[role=status] {
+	display: none;
 }
 
-#ui-id-1{
-	display:none;
+#ui-id-1 {
+	display: none;
+}
+
+.status-row {
+	margin-top: 4em;
+	margin-buttom: 6em;
+}
+
+#search-button {
+	background-color: #535664;
+	border-color: #535664;
+	color: #ff8040;
+}
+
+#search-button:hover {
+	background-color: #707070;
+	border-color: #707070;
+}
+
+.register-input {
+	width: 100%
 }

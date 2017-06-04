@@ -49,7 +49,7 @@ public class ProfileControllerRestTest {
 
 	@Autowired
 	private InterestService interestService;
-	
+
 	@Autowired
 	private ProfileController profileController;
 
@@ -57,16 +57,18 @@ public class ProfileControllerRestTest {
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
-	
+
 	/**
 	 * create user
 	 * 
 	 */
-	private void createTestUser(String username){
-		SiteUser user = new SiteUser(username,"123456");
+	private void createTestUser(String username, String firstname, String lastname) {
+		SiteUser user = new SiteUser(username, "123456", firstname, lastname);
+		user.setFirstName("test");
+		user.setLastName("test");
 		userService.save(user);
-		
-		//create new profile
+
+		// create new profile
 		profileController.showProfile();
 	}
 
@@ -74,8 +76,8 @@ public class ProfileControllerRestTest {
 	@WithMockUser(username = "test!@gmail.com")
 	public void testSaveAndDeleteInterest() throws Exception {
 
-		createTestUser("test!@gmail.com");
-		
+		createTestUser("test!@gmail.com", "tom", "zac");
+
 		String interestText = "thisisinterest";
 		mockMvc.perform(post("/save-interest").param("name", interestText)).andExpect(status().isOk());
 
@@ -88,15 +90,15 @@ public class ProfileControllerRestTest {
 		SiteUser user = userService.getUser(authentication.getName());
 
 		assertNotNull("user shold not be null", user);
-		
+
 		Profile profile = profileService.getUserProfile(user);
-		
+
 		assertNotNull(profile);
 		assertNotNull(profile.getInterests());
 		assertTrue("should contain interest", profile.getInterests().contains(interest));
-		
+
 		mockMvc.perform(post("/delete-interest").param("name", interestText)).andExpect(status().isOk());
-		
+
 		Profile profile2 = profileService.getUserProfile(user);
 
 		assertFalse("should contain interest", profile2.getInterests().contains(interest));

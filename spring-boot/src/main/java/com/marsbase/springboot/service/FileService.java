@@ -37,7 +37,6 @@ public class FileService {
 		} else {
 			return fileName.substring(doPosition + 1).toLowerCase();
 		}
-
 	}
 
 	private boolean isImageExtension(String fileExtension) {

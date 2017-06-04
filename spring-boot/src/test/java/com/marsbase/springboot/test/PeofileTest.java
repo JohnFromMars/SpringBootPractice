@@ -36,8 +36,8 @@ public class PeofileTest {
 	@Autowired
 	private InterestService interestService;
 
-	private SiteUser[] users = { new SiteUser("ohohyeah@gmail.com", "hellothere"),
-			new SiteUser("nono@gmail.com", "asdfg"), new SiteUser("kkkk@gmail.com", "098764321") };
+	private SiteUser[] users = { new SiteUser("ohohyeah@gmail.com", "hellothere","zac","wide"),
+			new SiteUser("nono@gmail.com", "asdfg","tom","paddy"), new SiteUser("kkkk@gmail.com", "098764321","anominous","zic") };
 
 	private String[][] interests = { { "music", "guitarxxxx", "band" }, { "music", "music", "coding", "footbal" },
 			{ "movie", "metal", "animate", "basketball" }, };
@@ -59,7 +59,7 @@ public class PeofileTest {
 
 				assertNotNull("interest should not be null", interest);
 				assertNotNull("interest should has id", interest.getId());
-				assertEquals("text should match", s, interest.getName());
+				assertEquals("text should match", s.toLowerCase(), interest.getName().toLowerCase());
 
 			}
 

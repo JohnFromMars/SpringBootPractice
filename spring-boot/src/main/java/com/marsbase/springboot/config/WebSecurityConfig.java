@@ -34,7 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		            "/verifyemail",
 		            "/confirmregister",
 		            "/invaliduser",
-		            "/expiredtoken").permitAll()
+		            "/expiredtoken",
+		            "/search").permitAll()
 		    
 		    //resources authorization
 		    .antMatchers(
