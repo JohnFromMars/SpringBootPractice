@@ -14,11 +14,18 @@ public class InterestService {
 	@Autowired
 	private InterestDao interestDao;
 
+	private String cleanInterest(String interest) {
+		return interest.trim().substring(0, 1).toUpperCase() + interest.trim().substring(1).toLowerCase();
+	}
+
 	public Interest getInterest(String name) {
-		return interestDao.findOneByName(name);
+		String cleanInterest = cleanInterest(name);
+		return interestDao.findOneByName(cleanInterest);
 	}
 
 	public void save(Interest interest) {
+		String cleanInterest = cleanInterest(interest.getName());
+		interest.setName(cleanInterest);
 		interestDao.save(interest);
 	}
 
@@ -28,10 +35,12 @@ public class InterestService {
 
 	@Transactional
 	public Interest createIfNotExist(String interestText) {
-		Interest interest = interestDao.findOneByName(interestText);
+
+		String cleanInterest = cleanInterest(interestText);
+		Interest interest = interestDao.findOneByName(cleanInterest);
 
 		if (interest == null) {
-			interest = new Interest(interestText);
+			interest = new Interest(cleanInterest);
 			interestDao.save(interest);
 		}
 
