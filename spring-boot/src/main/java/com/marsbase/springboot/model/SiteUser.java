@@ -198,4 +198,10 @@ public class SiteUser {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "SiteUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", plainPassword=" + plainPassword + ", password=" + password + ", repeatPassword=" + repeatPassword
+				+ ", role=" + role + ", enabled=" + enabled + "]";
+	}
 }
