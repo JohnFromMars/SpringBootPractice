@@ -7,24 +7,26 @@ import org.springframework.stereotype.Service;
 
 import com.marsbase.springboot.dao.InterestDao;
 import com.marsbase.springboot.model.Interest;
+import com.marsbase.springboot.util.StringFormatUtil;
 
 @Service
 public class InterestService {
 
 	@Autowired
 	private InterestDao interestDao;
+	
+	@Autowired
+	private StringFormatUtil stringFormatUtil;
 
-	private String cleanInterest(String interest) {
-		return interest.trim().substring(0, 1).toUpperCase() + interest.trim().substring(1).toLowerCase();
-	}
+	
 
 	public Interest getInterest(String name) {
-		String cleanInterest = cleanInterest(name);
+		String cleanInterest =stringFormatUtil.getUpperAndLowerCase(name);
 		return interestDao.findOneByName(cleanInterest);
 	}
 
 	public void save(Interest interest) {
-		String cleanInterest = cleanInterest(interest.getName());
+		String cleanInterest = stringFormatUtil.getUpperAndLowerCase(interest.getName());
 		interest.setName(cleanInterest);
 		interestDao.save(interest);
 	}
@@ -36,7 +38,7 @@ public class InterestService {
 	@Transactional
 	public Interest createIfNotExist(String interestText) {
 
-		String cleanInterest = cleanInterest(interestText);
+		String cleanInterest = stringFormatUtil.getUpperAndLowerCase(interestText);
 		Interest interest = interestDao.findOneByName(cleanInterest);
 
 		if (interest == null) {

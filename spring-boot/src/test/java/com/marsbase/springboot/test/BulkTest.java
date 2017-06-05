@@ -30,7 +30,7 @@ import com.marsbase.springboot.service.InterestService;
 import com.marsbase.springboot.service.ProfileService;
 import com.marsbase.springboot.service.UserService;
 
-//@Transactional
+@Transactional
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(App.class)

@@ -9,7 +9,6 @@ import java.nio.file.StandardOpenOption;
 
 import javax.validation.Valid;
 
-import org.owasp.html.PolicyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -39,6 +38,7 @@ import com.marsbase.springboot.service.InterestService;
 import com.marsbase.springboot.service.ProfileService;
 import com.marsbase.springboot.service.UserService;
 import com.marsbase.springboot.status.PhotoUploadStatus;
+import com.marsbase.springboot.util.StringFormatUtil;
 
 @Controller
 public class ProfileController {
@@ -53,7 +53,7 @@ public class ProfileController {
 	private FileService fileService;
 
 	@Autowired
-	private PolicyFactory policyFactory;
+	private StringFormatUtil stringFormatUtil;
 
 	@Autowired
 	private InterestService interestService;
@@ -193,7 +193,7 @@ public class ProfileController {
 
 			// get the latest Profile.about from webProfile
 			// and save it to database
-			profile.safeMergeFrom(webProfile, policyFactory);
+			profile.safeMergeFrom(webProfile, stringFormatUtil);
 			profileService.save(profile);
 
 			// go back to profile page
@@ -278,7 +278,7 @@ public class ProfileController {
 		Profile profile = profileService.getUserProfile(user);
 
 		// avoid script inject attack
-		String cleanInterestName = policyFactory.sanitize(interestName);
+		String cleanInterestName = stringFormatUtil.sanitize(interestName);
 
 		Interest interest = interestService.createIfNotExist(cleanInterestName);
 

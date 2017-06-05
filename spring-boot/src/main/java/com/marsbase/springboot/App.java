@@ -2,6 +2,8 @@ package com.marsbase.springboot;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -82,6 +84,11 @@ public class App extends SpringBootServletInitializer {
 				      .allowCommonInlineFormattingElements()
 				      .toFactory();
 		//@formatter:on
+	}
+
+	@Bean
+	public Logger getLogger() {
+		return LoggerFactory.getLogger(App.class);
 	}
 
 }

@@ -19,7 +19,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.owasp.html.PolicyFactory;
+import com.marsbase.springboot.util.StringFormatUtil;
 
 @Entity
 @Table(name = "profile")
@@ -145,9 +145,9 @@ public class Profile {
 	 * @param other
 	 * @param policyFactory
 	 */
-	public void safeMergeFrom(Profile other, PolicyFactory policyFactory) {
+	public void safeMergeFrom(Profile other, StringFormatUtil stringFormatUtil) {
 		if (other.about != null) {
-			this.about = policyFactory.sanitize(other.about);
+			this.about = stringFormatUtil.sanitize(other.about);
 		}
 	}
 
