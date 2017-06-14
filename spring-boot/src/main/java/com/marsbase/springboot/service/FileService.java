@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.marsbase.springboot.exception.ImageTooSmallException;
 import com.marsbase.springboot.exception.InvalidFileException;
-import com.marsbase.springboot.model.FileInfo;
+import com.marsbase.springboot.model.dto.FileInfo;
 
 @Service
 public class FileService {

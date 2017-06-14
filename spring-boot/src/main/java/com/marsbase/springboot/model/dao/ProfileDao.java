@@ -1,11 +1,11 @@
-package com.marsbase.springboot.dao;
+package com.marsbase.springboot.model.dao;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.marsbase.springboot.model.Profile;
-import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.model.entity.Profile;
+import com.marsbase.springboot.model.entity.SiteUser;
 
 public interface ProfileDao extends CrudRepository<Profile, Long> {
 	List<Profile> findByInterestsName(String text);

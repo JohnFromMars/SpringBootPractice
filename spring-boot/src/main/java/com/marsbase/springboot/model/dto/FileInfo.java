@@ -1,4 +1,4 @@
-package com.marsbase.springboot.model;
+package com.marsbase.springboot.model.dto;
 
 public class FileInfo {
 

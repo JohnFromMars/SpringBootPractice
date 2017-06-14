@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.marsbase.springboot.App;
-import com.marsbase.springboot.dao.StatusUpdateDao;
-import com.marsbase.springboot.model.StatusUpdate;
+import com.marsbase.springboot.model.dao.StatusUpdateDao;
+import com.marsbase.springboot.model.entity.StatusUpdate;
 
 @Transactional
 @WebAppConfiguration

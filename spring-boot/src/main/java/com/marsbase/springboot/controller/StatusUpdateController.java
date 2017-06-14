@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.marsbase.springboot.model.StatusUpdate;
+import com.marsbase.springboot.model.entity.StatusUpdate;
 import com.marsbase.springboot.service.StatusUpdateService;
 
 @Controller

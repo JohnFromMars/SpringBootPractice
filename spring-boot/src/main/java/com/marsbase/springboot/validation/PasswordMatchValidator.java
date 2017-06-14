@@ -3,7 +3,7 @@ package com.marsbase.springboot.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.model.entity.SiteUser;
 
 public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, SiteUser> {
 

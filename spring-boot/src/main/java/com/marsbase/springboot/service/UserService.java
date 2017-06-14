@@ -12,11 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.marsbase.springboot.dao.UserDao;
-import com.marsbase.springboot.dao.VerificationDao;
-import com.marsbase.springboot.model.SiteUser;
-import com.marsbase.springboot.model.TokenType;
-import com.marsbase.springboot.model.VerificationToken;
+import com.marsbase.springboot.model.dao.UserDao;
+import com.marsbase.springboot.model.dao.VerificationDao;
+import com.marsbase.springboot.model.entity.SiteUser;
+import com.marsbase.springboot.model.entity.TokenType;
+import com.marsbase.springboot.model.entity.VerificationToken;
 
 @Service
 public class UserService implements UserDetailsService {

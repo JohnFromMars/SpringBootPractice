@@ -3,9 +3,9 @@ package com.marsbase.springboot.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.marsbase.springboot.dao.ProfileDao;
-import com.marsbase.springboot.model.Profile;
-import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.model.dao.ProfileDao;
+import com.marsbase.springboot.model.entity.Profile;
+import com.marsbase.springboot.model.entity.SiteUser;
 
 @Service
 public class ProfileService {

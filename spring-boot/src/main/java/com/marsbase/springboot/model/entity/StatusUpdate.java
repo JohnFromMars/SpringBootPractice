@@ -1,4 +1,4 @@
-package com.marsbase.springboot.model;
+package com.marsbase.springboot.model.entity;
 
 import java.util.Date;
 

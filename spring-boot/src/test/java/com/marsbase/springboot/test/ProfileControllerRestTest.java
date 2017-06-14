@@ -23,9 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.marsbase.springboot.App;
 import com.marsbase.springboot.controller.ProfileController;
-import com.marsbase.springboot.model.Interest;
-import com.marsbase.springboot.model.Profile;
-import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.model.entity.Interest;
+import com.marsbase.springboot.model.entity.Profile;
+import com.marsbase.springboot.model.entity.SiteUser;
 import com.marsbase.springboot.service.InterestService;
 import com.marsbase.springboot.service.ProfileService;
 import com.marsbase.springboot.service.UserService;

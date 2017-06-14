@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.marsbase.springboot.model.SiteUser;
-import com.marsbase.springboot.model.VerificationToken;
+import com.marsbase.springboot.model.entity.SiteUser;
+import com.marsbase.springboot.model.entity.VerificationToken;
 import com.marsbase.springboot.service.EmailService;
 import com.marsbase.springboot.service.UserService;
 

@@ -5,8 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.marsbase.springboot.dao.InterestDao;
-import com.marsbase.springboot.model.Interest;
+import com.marsbase.springboot.model.dao.InterestDao;
+import com.marsbase.springboot.model.entity.Interest;
 import com.marsbase.springboot.util.StringFormatUtil;
 
 @Service

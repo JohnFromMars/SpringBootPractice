@@ -1,4 +1,4 @@
-package com.marsbase.springboot.model;
+package com.marsbase.springboot.model.entity;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +19,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.marsbase.springboot.model.dto.FileInfo;
 import com.marsbase.springboot.util.StringFormatUtil;
 
 @Entity

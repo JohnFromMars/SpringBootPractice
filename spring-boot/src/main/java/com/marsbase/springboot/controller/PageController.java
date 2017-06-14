@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.marsbase.springboot.model.StatusUpdate;
+import com.marsbase.springboot.model.entity.StatusUpdate;
 import com.marsbase.springboot.service.StatusUpdateService;
 
 @Controller

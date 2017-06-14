@@ -188,3 +188,7 @@ div[role=status] {
 .register-input {
 	width: 100%
 }
+
+.searchPhoto {
+	border-radius: 7px;
+}

@@ -6,8 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.marsbase.springboot.dao.StatusUpdateDao;
-import com.marsbase.springboot.model.StatusUpdate;
+import com.marsbase.springboot.model.dao.StatusUpdateDao;
+import com.marsbase.springboot.model.entity.StatusUpdate;
 
 @Service
 public class StatusUpdateService {

@@ -29,10 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.marsbase.springboot.exception.ImageTooSmallException;
 import com.marsbase.springboot.exception.InvalidFileException;
-import com.marsbase.springboot.model.FileInfo;
-import com.marsbase.springboot.model.Interest;
-import com.marsbase.springboot.model.Profile;
-import com.marsbase.springboot.model.SiteUser;
+import com.marsbase.springboot.model.dto.FileInfo;
+import com.marsbase.springboot.model.entity.Interest;
+import com.marsbase.springboot.model.entity.Profile;
+import com.marsbase.springboot.model.entity.SiteUser;
 import com.marsbase.springboot.service.FileService;
 import com.marsbase.springboot.service.InterestService;
 import com.marsbase.springboot.service.ProfileService;
@@ -253,9 +253,10 @@ public class ProfileController {
 		SiteUser user = userService.getUser(id);
 		Profile profile = profileService.getUserProfile(user);
 
+		// if profile has no photo detail ,return default marsbase.png
 		Path photoPath = Paths.get(photoUploadDirectory, defaultPhotoSubdir, defaultPhotoName);
 
-		// if profile has no photo detail ,return default marsbase.png
+		// if profile has photo, then over write it to its own photo path
 		if (profile != null && profile.getPhotoPath(photoUploadDirectory) != null) {
 			photoPath = profile.getPhotoPath(photoUploadDirectory);
 		}
