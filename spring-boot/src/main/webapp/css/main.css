@@ -192,3 +192,27 @@ div[role=status] {
 .searchPhoto {
 	border-radius: 7px;
 }
+
+/*LIST OF RESULTS*/
+.results-photo {
+	display: inline-block;
+}
+
+.results-detail {
+	display: inline-block;
+	margin-left: 25px;
+}
+
+.results-list {
+	margin-top: 13px;
+}
+
+.results-name {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.results-interests {
+	font-size: 1em;
+	font-weight: bold;
+}

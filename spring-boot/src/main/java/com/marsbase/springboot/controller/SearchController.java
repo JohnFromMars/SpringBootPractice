@@ -18,13 +18,13 @@ public class SearchController {
 	@Autowired
 	private SearchService searchService;
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@RequestMapping(value = "/search", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView search(ModelAndView modelAndView, @RequestParam("s") String name) {
 		modelAndView.setViewName("app.search");
 		List<SearchResult> searchResult = searchService.searchInterest(name);
 
 		modelAndView.getModel().put("searchResult", searchResult);
-		
+
 		return modelAndView;
 	}
 
